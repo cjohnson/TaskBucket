@@ -1,7 +1,9 @@
-import taskbucket as tb
+import studytask as st
 
-task = tb.TaskBucket("Vector Fields", difficulty=3)
+task = st.StudyTask("Vector Fields", difficulty=3)
 
-for i in range(5):
-    print(task)
-    task.study(True)
+json_string = task.to_json()
+print(json_string)
+
+task_from_json = st.StudyTask.from_json(json_string)
+print(task_from_json)

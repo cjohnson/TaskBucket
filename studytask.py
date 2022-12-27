@@ -1,7 +1,7 @@
 import datetime
 import json
 
-class TaskBucket:
+class StudyTask:
     def __init__(self, tag, difficulty, bucket = 1, volume = 1):
         if difficulty > 5 or difficulty < 1:
             raise ValueError("Difficulty is from 1 to 5")
@@ -16,13 +16,24 @@ class TaskBucket:
         return f"{self.tag}: {self.bucket} [{self.volume}/{self.difficulty}]"
 
     def to_json(self):
-        return {
+        task_dict = {
             "tag": self.tag,
             "bucket": self.bucket,
             "difficulty": self.difficulty,
             "volume": self.volume,
-            "last_study_time": self.last_study_time.isoformat() if self.last_study_time is not None else None,
+            "last_studied": self.last_studied.isoformat() if self.last_studied is not None else None,
         }
+
+        return json.dumps(task_dict)
+    
+    @staticmethod
+    def from_json(json_string):
+        task_dict = json.loads(json_string)
+
+        task = StudyTask(task_dict["tag"], task_dict["difficulty"], task_dict["bucket"], task_dict["volume"])
+        task.last_studied = task_dict["last_studied"]
+
+        return task
 
     def timer_check(self):
         current_time = datetime.datetime.now()
