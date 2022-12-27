@@ -1,4 +1,5 @@
 import datetime
+import json
 
 class TaskBucket:
     def __init__(self, tag, difficulty, bucket = 1, volume = 1):
@@ -13,6 +14,15 @@ class TaskBucket:
     
     def __str__(self):
         return f"{self.tag}: {self.bucket} [{self.volume}/{self.difficulty}]"
+
+    def to_json(self):
+        return {
+            "tag": self.tag,
+            "bucket": self.bucket,
+            "difficulty": self.difficulty,
+            "volume": self.volume,
+            "last_study_time": self.last_study_time.isoformat() if self.last_study_time is not None else None,
+        }
 
     def timer_check(self):
         current_time = datetime.datetime.now()
